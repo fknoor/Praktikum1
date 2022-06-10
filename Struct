@@ -1,0 +1,33 @@
+#include<iostream>
+using namespace std;
+	struct makanan
+	{
+		string name;
+		string tempatbeli;
+		string skorrasa;
+		string kadarmicin;
+		string objekmakanan;
+	};
+	
+	struct manusia
+	{
+		int umur;
+		string name;
+		int tinggibadan;
+		int beratbadan;
+		int jeniskelamin;
+		string emosisaatini;
+		string hobi;
+		int tingkatkecerdasan;
+		
+		printkecerdasan()
+		{
+			cout<<"Tingkat kecerdasan"<<name<<"saat ini adalah"<<tingkatkecerdasan<<"\n";
+		}
+		makan (makanan objekMakanan)
+		{
+			tingkatkecerdasan=tingkatkecerdasan - objekMakanan.kadarmicin;
+			cout<<"Saya makan ya!, "<<"sama"<<objekMakanan.name<<"yang dibeli di "<< objekMakanan.tempatbeli<<"\n";
+			printkecerdasan();
+		}
+	};
