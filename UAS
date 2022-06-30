@@ -1,0 +1,195 @@
+#include<iostream>
+#include<conio.h>
+#include<windows.h>
+#include<time.h>
+
+using namespace std;
+void gotoxy (int x, int y)
+    {
+        COORD coordinates;
+		coordinates.X = x;
+        coordinates.Y = y;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coordinates);
+    }
+    
+int play()
+{
+	system("cls");
+    int i;
+    int lakonx,lakony,musuhx,musuhy,buahx,buahy,skorlakon=0,skormusuh=0;
+    char ch;
+    
+    srand(time(NULL));
+
+	gotoxy(18, 5);cout<<"Press any key to start.";
+	getch();
+	system("cls");
+	   
+	//Batas pagar
+   for (i=0;i<=80;i++)
+	{   gotoxy(i,0);cout<<"#";
+        gotoxy(i,25);cout<<"#";
+
+        if(i<25 )
+		{
+			gotoxy(0,i);cout<<"#";
+        	gotoxy(80,i);cout<<"#";
+        }
+    }
+    //Kemunculan
+    lakonx=rand()%40+35;
+    lakony =rand()%10+10;
+    gotoxy(lakonx,lakony); 
+	cout << '\2';
+
+    musuhx=rand()%40+35;
+    musuhy =rand()%10+10;
+    gotoxy(musuhx,musuhy); 
+	cout << '\1';
+
+    buahx=rand()%40+35;
+    buahy =rand()%10+10;
+    gotoxy(buahx,buahy); 
+	cout << '@';
+
+    int arah=0;
+
+    int delay=0,limit=5000;
+    while(true)
+    {
+        delay++;
+
+        if(delay>limit)
+        {
+            gotoxy(0,0);
+			cout<<" You : "<< skorlakon<< "   Enemy : "<< skormusuh<< "  ";
+            delay=0;
+                gotoxy(lakonx,lakony);cout << ' ';
+                gotoxy(musuhx,musuhy);cout << ' ';
+                switch(arah)
+                {
+                    case 72: lakony--;break;
+                    case 75: lakonx--;break;
+                    case 80: lakony++;break;
+                    case 77: lakonx++;break;
+                }
+//Majuin musuh
+            if(arah)
+            {
+                if(buahx==musuhx)
+                    {
+                    	if(buahy>musuhy) musuhy++;else if(buahy<musuhy) musuhy--;
+                    }
+                if(buahx>musuhx) musuhx++;else if(buahx<musuhx) musuhx--;
+
+            }
+                gotoxy(musuhx,musuhy);cout << '\1';
+                gotoxy(lakonx,lakony);cout << '\2';
+
+            if(musuhx==buahx&&musuhy==buahy)
+            {
+            	buahx=rand()%40+ 3;
+            	buahy =rand()%20 +2;
+            	gotoxy(buahx,buahy); cout << '@';
+            	skormusuh+=100;
+            	limit-=20;
+
+            }
+            if(lakonx==buahx&&lakony==buahy)
+            {
+            	buahx=rand()%40+ 3;
+            	buahy =rand()%20 +2;
+            	gotoxy(buahx,buahy); cout << '@';
+            	skorlakon+=100;
+            	limit-=20;
+            }
+		}
+		//Batas mati
+       if(lakonx>79||lakonx<1||lakony>24||lakony<1)
+       //Game over
+       {
+			system("cls");
+			cout<<endl;
+        	gotoxy(15,10);cout<< "GAME OVER ! ";
+            if(skorlakon>skormusuh)
+            cout << "You Win !"<<endl;
+			else if(skorlakon<skormusuh) 
+			cout << "You Lose !"<<endl; 
+			else 
+			cout << "Draw !"<<endl;
+			cout<<"		"<<endl;
+			cout<<"	---------------------------------"<<endl;
+			cout<<"		A. Start Game	"<<endl;	 
+			cout<<"		B. Quit	"<<endl;
+			cout<<"		Select option: ";
+			char op = getch();
+			
+			if( op=='a') play();
+			else if( op=='b') exit(0);
+		}
+		
+if (kbhit())
+       { //penekanan tombol
+           ch=getch();
+
+           if(ch==32)
+           {
+		   		gotoxy(lakonx,lakony);cout << ' ';
+                switch(arah)
+                {
+                    case 72: lakony-=5;break;
+                    case 75: lakonx-=5;break;
+                    case 80: lakony+=5;break;
+                    case 77: lakonx+=5;break;
+                }
+           }
+           if(ch<0)
+           {
+               ch=getch();
+               if(ch==72 || ch==80||ch==75||ch==77)
+               {
+                	if(ch%2 && !(arah%2) )arah=ch;
+                	if(!(ch%2) && arah%2 )arah=ch;
+               } 
+           }
+       }
+    }
+}
+//Menu intruksi 
+void instructions()
+{
+	system("cls");
+	cout<<"Instructions";
+	cout<<"\n----------------";
+	cout<<"\n\n Press 'Arrow left' to move left";
+	cout<<"\n Press 'Arrow right' to move right";
+	cout<<"\n Press 'Arrow up' to move up";
+	cout<<"\n Press Arrow down' to move down";
+	cout<<"\n\nPress any key to go back to menu.";
+	getch();
+}
+//Menu awal
+int main()
+{
+	 
+	 
+	do
+	{
+		system("cls");
+		gotoxy(10,5); cout<<" -------------------------- "; 
+		gotoxy(10,6); cout<<" |        PackMan        | "; 
+		gotoxy(10,7); cout<<" --------------------------";
+		gotoxy(10,9); cout<<"1. Start Game";
+		gotoxy(10,10); cout<<"2. Instructions";	 
+		gotoxy(10,11); cout<<"3. Quit";
+		gotoxy(10,13); cout<<"Select option: ";
+		char op = getch();
+		
+		if( op=='1') play();
+		if( op=='2') instructions();
+		else if( op=='3') exit(0);
+		
+	}while(true);
+	
+	return 0;
+}
