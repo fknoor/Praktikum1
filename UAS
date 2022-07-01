@@ -4,6 +4,10 @@
 #include<time.h>
 
 using namespace std;
+struct player{
+	string nama;
+};
+//koordinat matrix
 void gotoxy (int x, int y)
     {
         COORD coordinates;
@@ -12,15 +16,19 @@ void gotoxy (int x, int y)
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coordinates);
     }
     
+//gameplay
 int play()
 {
+	player player1;
 	system("cls");
     int i;
-    int lakonx,lakony,musuhx,musuhy,buahx,buahy,skorlakon=0,skormusuh=0;
+    int lakonx,lakony,musuhx,musuhy,buahx,buahy,skorlakon=0,skormusuh=0,nama;
     char ch;
     
     srand(time(NULL));
-
+	cout<<"Nama Player : ";
+	cin>>player1.nama;
+	
 	gotoxy(18, 5);cout<<"Press any key to start.";
 	getch();
 	system("cls");
@@ -62,7 +70,7 @@ int play()
         if(delay>limit)
         {
             gotoxy(0,0);
-			cout<<" You : "<< skorlakon<< "   Enemy : "<< skormusuh<< "  ";
+			cout<< player1.nama<< " : "<< skorlakon<< "   Enemy : "<< skormusuh<< "  ";
             delay=0;
                 gotoxy(lakonx,lakony);cout << ' ';
                 gotoxy(musuhx,musuhy);cout << ' ';
@@ -112,9 +120,9 @@ int play()
 			cout<<endl;
         	gotoxy(15,10);cout<< "GAME OVER ! ";
             if(skorlakon>skormusuh)
-            cout << "You Win !"<<endl;
+            cout << player1.nama<<" Win !"<<endl;
 			else if(skorlakon<skormusuh) 
-			cout << "You Lose !"<<endl; 
+			cout <<player1.nama<< " Lose !"<<endl; 
 			else 
 			cout << "Draw !"<<endl;
 			cout<<"		"<<endl;
